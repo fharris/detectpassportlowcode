@@ -1,0 +1,77 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Objectstorage Eu Frankfurt 1 Oraclecloud Com",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://objectstorage.eu-frankfurt-1.oraclecloud.com",
+            "description": "Objectstorage Eu Frankfurt 1 Oraclecloud Com",
+            "x-vb": {
+                "authentication": {
+                    "authenticated": {
+                        "type": "http_signature_oci",
+                        "credentials": "vb_2a9bbeac-6e51-42ce-b82c-808654658fb1"
+                    },
+                    "anonymous": {
+                        "type": "as_authenticated_user"
+                    }
+                },
+                "forceProxy": "always",
+                "anonymousAccess": true
+            }
+        }
+    ],
+    "paths": {
+        "/n/{namespaceName}/b/{bucketName}/o/{objectName}": {
+            "parameters": [
+                {
+                    "name": "namespaceName",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "x-vb": {
+                        "defaultValue": "namespace"
+                    }
+                },
+                {
+                    "name": "bucketName",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "x-vb": {
+                        "defaultValue": "abc"
+                    }
+                },
+                {
+                    "name": "objectName",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "x-vb": {
+                        "defaultValue": "abc.txt"
+                    }
+                }
+            ],
+            "put": {
+                "operationId": "putNNamespaceNameBBucketNameOObjectName",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {}
+                    }
+                },
+                "responses": {},
+                "x-vb": {
+                    "actionHint": "create"
+                }
+            }
+        }
+    }
+}

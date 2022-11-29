@@ -1,0 +1,120 @@
+{
+  "description": "",
+  "root": "if",
+  "actions": {
+    "if": {
+      "module": "vb/action/builtin/ifAction",
+      "parameters": {
+        "condition": "[[ $page.variables.userName && $page.variables.photoName ]]"
+      },
+      "outcomes": {
+        "false": "fireNotification",
+        "true": "callFunctionAddImageFunction"
+      }
+    },
+    "fireNotification": {
+      "module": "vb/action/builtin/fireNotificationEventAction",
+      "parameters": {
+        "target": "leaf",
+        "summary": "NoUserPhotoName",
+        "message": "\"No file name correctly defined. userName: \" + $page.variables.userName + \" photoName: \" + $page.variables.photoName"
+      },
+      "outcomes": {
+        "success": "return2"
+      }
+    },
+    "callFunctionAddImageFunction": {
+      "module": "vb/action/builtin/callModuleFunctionAction",
+      "parameters": {
+        "module": "[[ $functions ]]",
+        "functionName": "AddImageFunction",
+        "params": [
+          "{{ $variables.files[0] }}"
+        ]
+      },
+      "outcomes": {
+        "success": "assignVariablesImageURL"
+      }
+    },
+    "assignVariablesImageURL": {
+      "module": "vb/action/builtin/assignVariablesAction",
+      "parameters": {
+        "$page.variables.imageURL": {
+          "source": "{{ $chain.results.callFunctionAddImageFunction.url }}"
+        }
+      },
+      "outcomes": {
+        "success": "callRestPutNNamespaceNameBBucketNameOObjectName"
+      }
+    },
+    "fireNotification2": {
+      "module": "vb/action/builtin/fireNotificationEventAction",
+      "parameters": {
+        "target": "leaf",
+        "summary": "[[ $chain.results.callRestPutNNamespaceNameBBucketNameOObjectName.message.summary ]]",
+        "type": "error",
+        "displayMode": "persist",
+        "message": "[[ $chain.results.callRestPutNNamespaceNameBBucketNameOObjectName.status ]]"
+      },
+      "outcomes": {
+        "success": "return3"
+      }
+    },
+    "callRestPutNNamespaceNameBBucketNameOObjectName": {
+      "module": "vb/action/builtin/restAction",
+      "parameters": {
+        "endpoint": "objectstorageEuFrankfurt1OraclecloudCom/putNNamespaceNameBBucketNameOObjectName",
+        "uriParams": {
+          "bucketName": "bucket-vbcs-takephoto",
+          "namespaceName": "frsxwtjslf35",
+          "objectName": "{{ $page.variables.userName +\" -\" + $page.variables.photoName + \" -\" + $variables.files[0].name }}"
+        },
+        "body": "{{ $variables.files[0] }}"
+      },
+      "outcomes": {
+        "failure": "fireNotification2",
+        "success": "fireNotification4"
+      }
+    },
+    "fireNotification4": {
+      "module": "vb/action/builtin/fireNotificationEventAction",
+      "parameters": {
+        "target": "leaf",
+        "summary": "[[ $chain.results.callRestPutNNamespaceNameBBucketNameOObjectName.message.summary ]]",
+        "type": "confirmation",
+        "message": "[[ $chain.results.callRestPutNNamespaceNameBBucketNameOObjectName.status ]]",
+        "displayMode": "transient"
+      },
+      "outcomes": {
+        "success": "return"
+      }
+    },
+    "return": {
+      "module": "vb/action/builtin/returnAction",
+      "parameters": {
+        "outcome": "success",
+        "payload": "{{ $chain.results.callRestPutNNamespaceNameBBucketNameOObjectName.message.summary }}"
+      }
+    },
+    "return2": {
+      "module": "vb/action/builtin/returnAction",
+      "parameters": {
+        "outcome": "failure"
+      }
+    },
+    "return3": {
+      "module": "vb/action/builtin/returnAction",
+      "parameters": {
+        "outcome": "failure",
+        "payload": "{{ $chain.results.callRestPutNNamespaceNameBBucketNameOObjectName.error }}"
+      }
+    }
+  },
+  "variables": {
+    "files": {
+      "required": true,
+      "type": "object[]",
+      "input": "fromCaller"
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "description": "",
+  "root": "callFunctionAddImageFunction",
+  "actions": {
+    "fireNotification": {
+      "module": "vb/action/builtin/fireNotificationEventAction",
+      "parameters": {
+        "target": "leaf",
+        "summary": "[[ $chain.results.callRestPostExecute.message.summary ]]",
+        "type": "error",
+        "displayMode": "transient",
+        "message": "Failure"
+      },
+      "description": "For Failure"
+    },
+    "callRestPostExecute": {
+      "module": "vb/action/builtin/restAction",
+      "parameters": {
+        "endpoint": "PASSP_KV_SERVICE/postExecute",
+        "contentType": "multipart/form-data",
+        "uriParams": {
+          "tracker": "{{ \"999-\" + $page.variables.inputName }}"
+        },
+        "body": "{{ $variables.files[0] }}",
+        "responseType": "object",
+        "responseBodyFormat": "json"
+      },
+      "outcomes": {
+        "failure": "fireNotification",
+        "success": "assignVariablesDocumentType"
+      }
+    },
+    "fireNotification3": {
+      "module": "vb/action/builtin/fireNotificationEventAction",
+      "parameters": {
+        "target": "leaf",
+        "summary": "Success",
+        "displayMode": "transient",
+        "type": "info"
+      },
+      "description": "For success"
+    },
+    "assignVariablesDocumentType": {
+      "module": "vb/action/builtin/assignVariablesAction",
+      "parameters": {
+        "$page.variables.documentType": {
+          "source": "{{ $chain.results.callRestPostExecute.body.detectedDocumentTypes[0].documentType }}"
+        },
+        "$page.variables.firstName": {
+          "source": "{{ $chain.results.callRestPostExecute.body.documentFields[0].fieldValue }}"
+        },
+        "$page.variables.LastName": {
+          "source": "{{ $chain.results.callRestPostExecute.body.documentFields[1].fieldValue }}"
+        },
+        "$page.variables.country": {
+          "source": "{{ $chain.results.callRestPostExecute.body.documentFields[2].fieldValue }}"
+        },
+        "$page.variables.nationality": {
+          "source": "{{ $chain.results.callRestPostExecute.body.documentFields[3].fieldValue }}"
+        },
+        "$page.variables.birthDate": {
+          "source": "{{ $chain.results.callRestPostExecute.body.documentFields[4].fieldValue }}"
+        },
+        "$page.variables.documentNumber": {
+          "source": "{{ $chain.results.callRestPostExecute.body.documentFields[8].fieldValue }}"
+        },
+        "$page.variables.documentTypeLetter": {
+          "source": "{{ $chain.results.callRestPostExecute.body.documentFields[7].fieldValue }}"
+        },
+        "$page.variables.expiryDate": {
+          "source": "{{ $chain.results.callRestPostExecute.body.documentFields[5].fieldValue }}"
+        },
+        "$page.variables.gender": {
+          "source": "{{ $chain.results.callRestPostExecute.body.documentFields[6].fieldValue }}"
+        }
+      },
+      "outcomes": {
+        "success": "fireNotification3"
+      }
+    },
+    "callFunctionAddImageFunction": {
+      "module": "vb/action/builtin/callModuleFunctionAction",
+      "parameters": {
+        "module": "[[ $functions ]]",
+        "functionName": "AddImageFunction",
+        "params": [
+          "{{ $variables.files[0] }}"
+        ]
+      },
+      "outcomes": {
+        "success": "assignVariablesImageURL"
+      }
+    },
+    "assignVariablesImageURL": {
+      "module": "vb/action/builtin/assignVariablesAction",
+      "parameters": {
+        "$page.variables.imageURL": {
+          "source": "{{ $chain.results.callFunctionAddImageFunction.url }}"
+        }
+      },
+      "outcomes": {
+        "success": "callRestPostExecute"
+      }
+    }
+  },
+  "variables": {
+    "files": {
+      "required": true,
+      "type": "object[]",
+      "input": "fromCaller"
+    }
+  }
+}

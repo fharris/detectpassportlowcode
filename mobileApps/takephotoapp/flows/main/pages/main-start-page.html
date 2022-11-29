@@ -1,0 +1,31 @@
+<!-- vb default-layout:grid -->
+<oj-ext-mobile-page-template id="page-template" page-title="POC - Send Photo Passport">
+  
+  <div class="oj-flex-item oj-flex">
+    <!-- vb placeholder:dt.artifact-platform.create.placeholder.content -->
+    <div class="oj-flex-item oj-sm-12 oj-md-10">
+      <oj-form-layout>
+        <oj-input-text label-hint="User Name" value="{{ $variables.userName }}"></oj-input-text>
+        <oj-input-text label-hint="Photo Name" value="{{ $variables.photoName }}"></oj-input-text>
+        <hr>
+        <oj-bind-if test="[[ $variables.userName ]]">
+          <oj-bind-if test="[[ $variables.photoName ]]">
+            <div class="oj-flex">
+              <oj-file-picker capture='implementation' accept='["image/*"]'
+                class="oj-filepicker-custom oj-flex-item oj-sm-12 oj-md-1"
+                on-oj-select="[[$listeners.cameraFilePickerSelect]]">
+                <oj-button slot='trigger' chroming="callToAction" label="Take Photo" class="oj-button-full-width">
+                  <span class="oj-ux-ico-file-image" slot="startIcon"></span>
+                </oj-button>
+                <hr slot="trigger">
+              </oj-file-picker>
+              <div class="oj-flex-item oj-sm-12 oj-md-2">
+                <img width="360" :src="[[ $variables.imageURL ]]">
+              </div>
+            </div>
+          </oj-bind-if>
+        </oj-bind-if>
+      </oj-form-layout>
+    </div>
+  </div>
+</oj-ext-mobile-page-template>

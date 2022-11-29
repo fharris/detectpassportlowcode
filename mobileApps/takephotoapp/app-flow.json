@@ -1,0 +1,62 @@
+{
+  "id": "takephotoapp",
+  "description": "A new VB app",
+  "defaultPage": "app",
+  "services": {},
+  "translations": {
+    "app": {
+      "path": "./resources/strings/app/nls/app-strings"
+    }
+  },
+  "events": {
+    "navigateToItem": {
+      "payloadType": {
+        "item": "string"
+      },
+      "description": "Event to configure navigation between items/tabs."
+    },
+    "toggleDrawer": {
+      "description": "Event to toggle navigation drawer."
+    }
+  },
+  "types": {},
+  "variables": {},
+  "eventListeners": {
+    "vbEnter": {
+      "chains": [
+        {
+          "chainId": "hideSpinner"
+        }
+      ]
+    },
+    "vbResourceChanged": {
+      "chains": [
+        {
+          "chainId": "resourceChangedHandler",
+          "parameters": {
+            "event": "{{ $event }}"
+          }
+        }
+      ]
+    }
+  },
+  "userConfig": {
+    "type": "vb/DefaultSecurityProvider",
+    "configuration": {
+      "authentication": {
+        "type": "oraclecloud",
+        "options": {
+          "login": "",
+          "logout": "",
+          "headers": {}
+        }
+      }
+    }
+  },
+  "security": {},
+  "imports": {
+    "css": [
+      "https://static.oracle.com/cdn/fnd/gallery/2210.0.0/images/iconfont/ojuxIconFont.min.css"
+    ]
+  }
+}

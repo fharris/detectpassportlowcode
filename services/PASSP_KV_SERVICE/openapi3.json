@@ -1,0 +1,265 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "POC_PASSP_KV_EXTRA_INLIN_SYNC",
+        "version": "v01",
+        "x-vb": {
+            "serviceType": "openapi",
+            "serviceTypeProperties": {
+                "sourceUrl": "https://vch-sb-frpj5kvxryk1-fr.integration.ocp.oraclecloud.com/ic/api/integration/v1/flows/rest/POC_PASSP_KV_EXTRA_INLIN_SYNC/1.0/metadata/openapi"
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "https://vch-sb-frpj5kvxryk1-fr.integration.ocp.oraclecloud.com:443/ic/api/integration/v1/flows/rest/POC_PASSP_KV_EXTRA_INLIN_SYNC/1.0",
+            "x-vb": {
+                "authentication": {
+                    "authenticated": {
+                        "type": "basic",
+                        "credentials": "vb_745a4aa1-b33b-4fcc-bd37-aeb9912de3b2"
+                    },
+                    "anonymous": {
+                        "type": "as_authenticated_user"
+                    }
+                },
+                "forceProxy": "always",
+                "anonymousAccess": true,
+                "secureHeaders": {
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/execute": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "tracker",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "x-vb": {
+                            "defaultValue": "999Fer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "files": {
+                                        "type": "string",
+                                        "description": "Files uploading part",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        },
+                                        "format": "binary"
+                                    }
+                                },
+                                "description": "The main schema representing the multipart body."
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "500": {
+                        "description": "Faults",
+                        "content": {}
+                    },
+                    "default": {
+                        "description": "A sample description of the Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostExecuteResponse"
+                                },
+                                "examples": {
+                                    "vb": {
+                                        "summary": "Example stored by VB User",
+                                        "externalValue": "./examples/postExecute/response_default_application_json_vb.json"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2Authentication": []
+                    },
+                    {
+                        "basicAuthentication": []
+                    }
+                ],
+                "operationId": "postExecute",
+                "x-vb": {
+                    "headers": {}
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "response-wrapper": {
+                "required": [
+                    "detectedDocumentTypes",
+                    "documentFields"
+                ],
+                "type": "object",
+                "properties": {
+                    "detectedDocumentTypes": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "confidence",
+                                "documentType"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "documentType": {
+                                    "type": "string"
+                                },
+                                "confidence": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    },
+                    "documentFields": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "fieldLabel",
+                                "fieldValue"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "fieldLabel": {
+                                    "type": "string"
+                                },
+                                "fieldValue": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "APIInvocationError": {
+                "required": [
+                    "detail",
+                    "errorCode",
+                    "errorDetails",
+                    "title",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "detail": {
+                        "type": "string"
+                    },
+                    "errorCode": {
+                        "type": "string"
+                    },
+                    "errorDetails": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "errorCode",
+                                "errorPath",
+                                "instance",
+                                "title",
+                                "type"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "instance": {
+                                    "type": "string"
+                                },
+                                "errorCode": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                },
+                                "errorPath": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "PostExecuteResponse": {
+                "type": "object",
+                "properties": {
+                    "detectedDocumentTypes": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "documentType": {
+                                    "type": "string"
+                                },
+                                "confidence": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "documentFields": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "fieldLabel": {
+                                    "type": "string"
+                                },
+                                "fieldValue": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "oauth2Authentication": {
+                "type": "oauth2",
+                "flows": {
+                    "authorizationCode": {
+                        "authorizationUrl": "https://idcs-930d7b2ea2cb46049963ecba3049f509.identity.oraclecloud.com:443/oauth2/v1/authorize",
+                        "tokenUrl": "https://idcs-930d7b2ea2cb46049963ecba3049f509.identity.oraclecloud.com:443/oauth2/v1/token",
+                        "scopes": {
+                            "https://vch-sb-frpj5kvxryk1-fr.integration.ocp.oraclecloud.com:443urn:opc:resource:consumer::all": "all"
+                        }
+                    }
+                }
+            },
+            "basicAuthentication": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        }
+    }
+}

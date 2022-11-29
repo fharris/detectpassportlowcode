@@ -1,0 +1,48 @@
+{
+  "title": "",
+  "description": "",
+  "variables": {
+    "imageURL": {
+      "type": "string"
+    },
+    "photoName": {
+      "type": "string"
+    },
+    "userName": {
+      "type": "string"
+    }
+  },
+  "metadata": {},
+  "types": {},
+  "eventListeners": {
+    "cameraFilePickerSelect": {
+      "chains": [
+        {
+          "chainId": "CameraFilePickerSelectChain",
+          "parameters": {
+            "files": "[[ Array.prototype.slice.call($event.detail.files) ]]"
+          }
+        }
+      ]
+    }
+  },
+  "imports": {
+    "components": {
+      "oj-button": {
+        "path": "ojs/ojbutton"
+      },
+      "oj-ext-mobile-page-template": {
+        "path": "vb/components/mobile-page-template/loader"
+      },
+      "oj-file-picker": {
+        "path": "ojs/ojfilepicker"
+      },
+      "oj-form-layout": {
+        "path": "ojs/ojformlayout"
+      },
+      "oj-input-text": {
+        "path": "ojs/ojinputtext"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "vbcs.dt.version": "20220913-23.01.0",
+    "dependencies": {
+        "upgrade": "micro",
+        "paths": {
+            "jet": "https://static.oracle.com/cdn/jet/13.0.5",
+            "telemetry": "https://static.oracle.com/cdn/trace/7.1.0",
+            "visualRuntime": "https://static.oracle.com/cdn/vb/2301.0.1"
+        }
+    },
+    "source.version": "2301",
+    "rootURL": "vbcs-apps-project",
+    "version": "0.1"
+}

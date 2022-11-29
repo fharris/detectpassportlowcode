@@ -1,0 +1,77 @@
+{
+  "title": "main",
+  "description": "",
+  "variables": {
+    "birthDate": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "documentNumber": {
+      "type": "string"
+    },
+    "documentType": {
+      "type": "string"
+    },
+    "documentTypeLetter": {
+      "type": "string"
+    },
+    "expiryDate": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "imageURL": {
+      "type": "string"
+    },
+    "inputName": {
+      "type": "string"
+    },
+    "LastName": {
+      "type": "string"
+    },
+    "nationality": {
+      "type": "string"
+    }
+  },
+  "metadata": {},
+  "types": {},
+  "eventListeners": {
+    "filePickerSelect": {
+      "chains": [
+        {
+          "chainId": "FilePickerSelectChain",
+          "parameters": {
+            "files": "[[ Array.prototype.slice.call($event.detail.files) ]]"
+          }
+        }
+      ]
+    },
+    "toggleDrawer": {
+      "chains": [
+        {
+          "chainId": "application:toggleDrawerHandler"
+        }
+      ]
+    }
+
+  },
+  "imports": {
+    "components": {
+      "oj-button": {
+        "path": "ojs/ojbutton"
+      },
+      "oj-file-picker": {
+        "path": "ojs/ojfilepicker"
+      },
+      "oj-input-text": {
+        "path": "ojs/ojinputtext"
+      }
+    }
+  }
+}

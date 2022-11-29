@@ -1,0 +1,23 @@
+/*
+ * Section: ListView Styles
+ * Purpose: Style the border of the listview item to start after the icon
+ *
+ */
+oj-ext-mobile-page-template .vb-list-item-indent-border .oj-listview-item {
+    /* background position is based on the icon size: icon size(32px) + 20px */
+    background-position-x: 52px;
+}
+
+/*
+ * Section: Form section headers
+ * Purpose: Creates a section header for a form commonly seen in mobile patterns
+ *
+ */
+oj-ext-mobile-page-template .vb-mobile-section-header {
+    background-color: rgb(255, 255, 255);
+    margin:0;
+    border-color: rgba(22, 21, 19, .1);
+    border-style: solid;
+    border-width: 1px 0;
+    font-size: 1.5rem;
+}
